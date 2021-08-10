@@ -35,7 +35,7 @@ Vuci is especially suitable for enterprise custom development.
 # How to build
 ## Add feeds
 
-	echo "src-git vuci https://github.com/Karolis1661/Vuci.git" >> feeds.conf.default
+	echo "src-git vuci https://github.com/janenas-luk/vuci.git" >> feeds.conf.default
 	./scripts/feeds update vuci
 	./scripts/feeds install -a -p vuci
 
