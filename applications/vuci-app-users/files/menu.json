@@ -1,0 +1,7 @@
+{
+    "system/users": {
+        "title": "Users",
+        "view": "vuci-app-users",
+        "index": 10
+    }
+}

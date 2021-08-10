@@ -1,0 +1,7 @@
+{
+    "system/system": {
+        "title": "System",
+        "view": "vuci-app-system",
+        "index": 10
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "network/routes": {
+        "title": "Routes",
+        "view": "vuci-app-routes",
+        "files": ["/etc/config/network"],
+        "index": 70
+    }
+}

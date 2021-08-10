@@ -1,0 +1,7 @@
+{
+    "status/dmesg": {
+        "title": "Kernel Log",
+        "view": "vuci-app-dmesg",
+        "index": 40
+    }
+}

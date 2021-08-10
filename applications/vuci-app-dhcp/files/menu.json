@@ -1,0 +1,8 @@
+{
+    "network/dhcp": {
+        "title": "DHCP/DNS",
+        "view": "vuci-app-dhcp",
+        "files": ["/etc/config/dhcp"],
+        "index": 40
+    }
+}

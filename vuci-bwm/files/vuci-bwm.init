@@ -1,0 +1,43 @@
+#!/bin/sh /etc/rc.common
+
+START=60
+
+USE_PROCD=1
+
+add_subnet() {
+    local network="$1"
+    local range ranges
+
+    case "$network" in
+        *.*|*:*)
+            echo "$network" > /proc/vuci-bwm/subnet
+        ;;
+        *)
+            if network_get_subnets ranges "$network"; then
+                for range in $ranges; do
+                    echo "$range" > /proc/vuci-bwm/subnet
+                done
+            fi
+        ;;
+    esac
+}
+
+parse_bwm() {
+    . /lib/functions/network.sh
+
+    local cfg="$1"
+
+    config_get ttl $cfg ttl
+    [ -n "$ttl" ] && echo "ttl=$ttl" > /proc/vuci-bwm/config
+
+    config_list_foreach "$cfg" local_network add_subnet
+}
+
+start_service() {
+    config_load vuci-bwm
+    config_foreach parse_bwm bwm
+}
+
+service_triggers() {
+    procd_add_reload_trigger "vuci-bwm"
+}

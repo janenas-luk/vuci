@@ -1,15 +1,17 @@
-# vuci([中文](/README_ZH.md))
+# vuci
 
-[1]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=plastic
+[1]: https://img.shields.io/badge/开源协议-MIT-brightgreen.svg?style=plastic
 [2]: /LICENSE
-[3]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=plastic
+[3]: https://img.shields.io/badge/提交代码-欢迎-brightgreen.svg?style=plastic
 [4]: https://github.com/zhaojh329/vuci/pulls
-[5]: https://img.shields.io/badge/Issues-welcome-brightgreen.svg?style=plastic
+[5]: https://img.shields.io/badge/提问-欢迎-brightgreen.svg?style=plastic
 [6]: https://github.com/zhaojh329/vuci/issues/new
 [7]: https://travis-ci.org/zhaojh329/vuci.svg?branch=master
 [8]: https://travis-ci.org/zhaojh329/vuci
-[9]: https://img.shields.io/badge/Support%20vuci-Donate-blueviolet.svg
-[10]: https://paypal.me/zjh329
+[9]: https://img.shields.io/badge/支持vuci-赞助作者-blueviolet.svg
+[10]: https://gitee.com/zhaojh329/vuci#project-donate-overview
+[11]: https://img.shields.io/badge/技术交流群-点击加入：153530783-brightgreen.svg
+[12]: https://jq.qq.com/?_wv=1027&k=5PKxbTV
 
 [![license][1]][2]
 [![PRs Welcome][3]][4]
@@ -17,29 +19,30 @@
 [![Build Status][7]][8]
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=zhaojh329.vuci)
 [![Support vuci][9]][10]
+[![Chinese Chat][11]][12]
 
 [vue.js]: https://github.com/vuejs/vue
 [Ant Design of Vue]: https://github.com/vueComponent/ant-design-vue
 [json-rpc]: https://www.jsonrpc.org/
 
-![](/demo.gif)
+![](/demo-zh.gif)
 
 ![](/diagram.png)
 
-OpenWrt web user interface implemented in [vue.js] and [Ant Design of Vue].
+OpenWrt后台管理界面，使用[vue.js]和[Ant Design of Vue]实现。
 
-Vuci uses [json-rpc] to communicate with OpenWrt subsystems and support ACL.
+Vuci使用[json-rpc]和OpenWrt子系统通信, 支持 ACL。
 
-Vuci is especially suitable for enterprise custom development.
+Vuci特别适合用于企业定制开发。
 
-# How to build
-## Add feeds
+# 如何编译
+## 添加 feeds
 
-	echo "src-git vuci https://github.com/Karolis1661/Vuci.git" >> feeds.conf.default
+	echo "src-git vuci https://github.com/zhaojh329/vuci.git" >> feeds.conf.default
 	./scripts/feeds update vuci
 	./scripts/feeds install -a -p vuci
 
-## Configure
+## 配置
 
 	Vuci  --->
 		Applications  --->
@@ -55,13 +58,14 @@ Vuci is especially suitable for enterprise custom development.
 		-*- vuci-bwm........................................ Bandwidth Monitor for vuci
 		-*- vuci-httpd................................................ Vuci rpc backend
 		-*- vuci-ui-core.................................................. Vuci ui core
-	
-## Compile
+
+## 编译
 
 	make V=s
 
-# Jsonrpc example
-## General
+
+# Jsonrpc 示例
+## 通用
 
 	{
 		"jsonrpc": "2.0",
@@ -79,34 +83,35 @@ Vuci is especially suitable for enterprise custom development.
 		"params": ["sid", "ubus", "call", { "object": "system", "method": "board" }]
 	}
 
-#  How to modify vue
+# 如何修改 Vue
 ## vuci-ui-core
-1. Modify
-2. Enter directory 'vuci/vuci-ui-core/vue' and run the follow commands
+1. 修改
+2. 进入目录 'vuci/vuci-ui-core/vue' 然后执行如下命令
 ```
 	npm install
 	npm run build
 ```
-## application
-1. Modify
-2. Enter your application directory(e.g. 'vuci-app-example') and run the follow commands
+## Application
+1. 修改
+2. 进入你的Application目录（例如 vuci-app-example）然后执行如下命令
 ```
 	cp vue/app.vue ../../build-app/src/
 ```
-3. Enter directory vuci/build-app and run the follow commands
+3. 进入目录 vuci/build-app 然后执行如下命令
 ```
 	npm install
 	npm run build
 	cp dist/app.common.js ../applications/vuci-app-example/vue/dist/app.js
 ```
-# How to debug vue for application(e.g. vuci-app-example)
-1. Copy vuci-app-example/vue/app.vue to vuci-ui-core/vue/src/views/vuci-app-example.vue
-2. Enter directory 'vuci/vuci-ui-core/vue' and run the follow commands
+# 如何调试 Application(例如 vuci-app-example)
+1. 拷贝 vuci-app-example/vue/app.vue 到 vuci-ui-core/vue/src/views/vuci-app-example.vue
+2. 进入目录 'vuci/vuci-ui-core/vue' 然后执行如下命令
 ```
 	npm install
 	npm run serve
 ```
 
-# Contributing
-If you would like to help making [vuci](https://github.com/zhaojh329/vuci) better,
-see the [CONTRIBUTING.md](/CONTRIBUTING.md) file.
+# 贡献代码
+如果你想帮助[vuci](https://github.com/zhaojh329/vuci) 变得更好，请参考
+[CONTRIBUTING_ZH.md](/CONTRIBUTING_ZH.md)。
+

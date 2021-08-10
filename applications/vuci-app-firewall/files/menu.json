@@ -1,0 +1,8 @@
+{
+    "network/firewall": {
+        "title": "Firewall",
+        "view": "vuci-app-firewall",
+        "files": ["/etc/config/firewall"],
+        "index": 60
+    }
+}

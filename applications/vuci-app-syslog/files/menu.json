@@ -1,0 +1,7 @@
+{
+    "status/syslog": {
+        "title": "System Log",
+        "view": "vuci-app-syslog",
+        "index": 30
+    }
+}

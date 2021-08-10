@@ -1,0 +1,7 @@
+{
+    "network/diagnostics": {
+        "title": "Diagnostics",
+        "view": "vuci-app-diagnostics",
+        "index": 80
+    }
+}

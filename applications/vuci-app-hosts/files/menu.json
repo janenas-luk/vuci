@@ -1,0 +1,8 @@
+{
+    "network/hosts": {
+        "title": "Hostnames",
+        "view": "vuci-app-hosts",
+        "files": ["/etc/config/dhcp"],
+        "index": 50
+    }
+}

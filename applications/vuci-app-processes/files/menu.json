@@ -1,0 +1,7 @@
+{
+    "status/processes": {
+        "title": "Processes",
+        "view": "vuci-app-processes",
+        "index": 50
+    }
+}

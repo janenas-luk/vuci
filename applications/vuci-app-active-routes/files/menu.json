@@ -1,0 +1,7 @@
+{
+    "status/routes": {
+        "title": "Active Routes",
+        "view": "vuci-app-active-routes",
+        "index": 20
+    }
+}
