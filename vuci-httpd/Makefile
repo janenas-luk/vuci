@@ -30,7 +30,7 @@ define Package/vuci-httpd
   SECTION:=vuci
   CATEGORY:=Vuci
   TITLE:=Vuci rpc backend
-  DEPENDS:=+libuci-lua +jansson +lsqlite3 +libiwinfo-lua +libpthread \
+  DEPENDS:=+libuci-lua +jansson +lsqlite3 +libiwinfo-lua +libpthread +libev \
 		+VUCI_HTTPD_API_UBUS:libubus-lua \
 		+VUCI_HTTPD_NOSSL:libuhttpd-nossl \
 		+VUCI_HTTPD_MBEDTLS:libuhttpd-mbedtls \
