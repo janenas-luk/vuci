@@ -5,6 +5,7 @@
         <router-view></router-view>
       </a-spin>
     </fullscreen>
+    <left-side-bar></left-side-bar>
   </a-config-provider>
 </template>
 

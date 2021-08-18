@@ -6,10 +6,20 @@
     <a-menu theme="dark" mode="inline" :open-keys="openKeys" @openChange="onOpenChange" @click="onClick" v-model="selectedKeys">
       <template v-for="menu in menus">
         <a-sub-menu v-if="menu.children" :key="menu.path">
-          <template v-slot:title><span>{{ $t(menu.title) }}</span></template>
-          <a-menu-item v-for="submenu in menu.children" :key="submenu.path">
+          <template v-slot:title>
+            <span>{{ $t(menu.title) }}</span>
+          </template>
+          <template v-for="submenu in menu.children">
+          <a-menu-item v-if="!submenu.children" :key="submenu.path">
             <span>{{ $t(submenu.title) }}</span>
           </a-menu-item>
+          <a-sub-menu v-else :key="submenu.path">
+            <template v-slot:title>{{ $t(submenu.title)}}</template>
+            <a-menu-item v-for="submenu2 in submenu.children" :key="submenu2.path">
+              {{ $t(submenu2.title) }}
+            </a-menu-item>
+          </a-sub-menu>
+          </template>
         </a-sub-menu>
         <a-menu-item v-else :key="menu.path">
           <span>{{ $t(menu.title) }}</span>
