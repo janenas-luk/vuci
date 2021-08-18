@@ -5,18 +5,14 @@ const menu = {}
 
 function parseMenus (raw) {
   let menus = {}
-
   Object.keys(raw).forEach(m => {
     const paths = m.split('/')
-    if (paths.length === 1) { menus[paths[0]] = raw[m] }
-  })
-
-  Object.keys(raw).forEach(m => {
-    const [menu, submenu] = m.split('/')
-    if (submenu && menus[menu]) {
-      if (!menus[menu].children) { menus[menu].children = {} }
-      menus[menu].children[submenu] = raw[m]
+    if (paths.length === 1) {
+      menus[paths[0]] = raw[m]
     }
+  })
+  Object.keys(raw).forEach(m => {
+    getMenuSubmenus(menus, m, raw[m])
   })
 
   menus = Object.keys(menus).map(k => {
@@ -24,18 +20,61 @@ function parseMenus (raw) {
   })
 
   menus.forEach(m => {
-    if (!m.children) { return }
-
-    m.children = Object.keys(m.children).map(k => {
-      return { path: `${m.path}/${k}`, ...m.children[k] }
-    })
-
-    m.children.sort((a, b) => a.index - b.index)
+    getMenuPaths(m, m.path)
+    sortMenuChildren(m)
   })
+
+  //   m.children.sort((a, b) => a.index - b.index)
+  // })
 
   menus.sort((a, b) => a.index - b.index)
 
   return menus.filter(m => m.children)
+}
+
+function sortMenuChildren (menu) {
+  if (menu.children) {
+    menu.children.forEach(child => {
+      if (child.children) {
+        sortMenuChildren(child)
+      }
+    })
+    menu.children.sort((a, b) => a.index - b.index)
+  }
+}
+
+function getMenuSubmenus (menus, menuObject, rawObject) {
+  const [menu, ...submenu] = menuObject.split('/')
+  if (submenu.length > 0 && menus[menu]) {
+    if (!menus[menu].children) {
+      menus[menu].children = {}
+    }
+    if (submenu.length > 1) {
+      console.log(menus[menu], submenu)
+      getSubmenuChildren(menus[menu].children[submenu[0]], menuObject.split('/').slice(-submenu.length + 1).join('/'), rawObject)
+    } else {
+      menus[menu].children[submenu[0]] = rawObject
+    }
+  }
+}
+function getSubmenuChildren (submenu, path, rawObject) {
+  if (!submenu.children) {
+    submenu.children = {}
+  }
+  const childMenu = path.split('/')
+  if (childMenu.length > 1) {
+    return getSubmenuChildren(childMenu[0], childMenu.slice(0, 1).join('/'), rawObject)
+  }
+  submenu.children[childMenu[0]] = rawObject
+}
+function getMenuPaths (menu, currentPath) {
+  if (!menu.children) { return }
+  menu.children = Object.keys(menu.children).map(k => {
+    if (menu.children[k].children) {
+      getMenuPaths(menu.children[k], `${menu.path}/${k}`)
+    }
+    return { path: `${currentPath}/${k}`, ...menu.children[k] }
+  })
 }
 
 function buildRoute (menu) {
@@ -65,7 +104,8 @@ function buildRoutes (menus) {
   menus.forEach(menu => {
     const route = {
       path: '/',
-      component: () => import('@/components/VuciLayout'),
+      component: () =>
+        import('@/components/VuciLayout'),
       meta: {
         title: menu.title
       },
@@ -76,15 +116,22 @@ function buildRoutes (menus) {
       route.redirect = menu.path
       route.children.push(buildRoute(menu))
     } else if (menu.children) {
-      menu.children.forEach(sm => {
-        route.children.push(buildRoute(sm))
-      })
+      getChildrenRoutes(route, menu)
     }
-
     routes.push(route)
   })
 
   return routes
+}
+
+function getChildrenRoutes (route, menu) {
+  if (menu.children) {
+    menu.children.forEach(submenu => {
+      getChildrenRoutes(route, submenu)
+    })
+  } else {
+    return route.children.push(buildRoute(menu))
+  }
 }
 
 menu.load = function (cb) {
