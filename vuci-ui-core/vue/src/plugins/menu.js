@@ -50,7 +50,6 @@ function getMenuSubmenus (menus, menuObject, rawObject) {
       menus[menu].children = {}
     }
     if (submenu.length > 1) {
-      console.log(menus[menu], submenu)
       getSubmenuChildren(menus[menu].children[submenu[0]], menuObject.split('/').slice(-submenu.length + 1).join('/'), rawObject)
     } else {
       menus[menu].children[submenu[0]] = rawObject
