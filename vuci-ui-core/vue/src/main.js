@@ -21,6 +21,7 @@ import session from './plugins/session'
 import network from './plugins/network'
 import firewall from './plugins/firewall'
 import wireless from './plugins/wireless'
+import zoneinfo from './plugins/zoneinfo'
 
 import VuciLine from '@/components/VuciLine.vue'
 import VuciDashboard from '@/components/VuciDashboard.vue'
@@ -46,13 +47,14 @@ Vue.use(helper)
 Vue.use(network)
 Vue.use(firewall)
 Vue.use(wireless)
+Vue.use(zoneinfo)
 
 Vue.component('VuciLine', VuciLine)
 Vue.component('VuciDashboard', VuciDashboard)
 
 new Vue({
-    router,
-    store,
-    i18n,
-    render: (h) => h(App)
+  router,
+  store,
+  i18n,
+  render: (h) => h(App)
 }).$mount('#app')
