@@ -1,0 +1,16 @@
+{
+    "services/ntp": {
+        "title": "NTP",
+        "index": 10    
+    },
+    "services/ntp/general": {
+        "title": "General",
+        "view": "vuci-app-ntp-general",
+        "index": 11
+    },
+    "services/ntp/ntp": {
+        "title": "NTP",
+        "view": "vuci-app-ntp",
+        "index": 12
+    }
+}
