@@ -42,8 +42,6 @@
 
 <script>
 
-import zoneinfo from './zoneinfo'
-
 export default {
   data () {
     return {
@@ -68,7 +66,7 @@ export default {
   },
   computed: {
     zoneinfo () {
-      return zoneinfo.map(item => item[0])
+      return this.$zoneinfo.map(item => item[0])
     }
   },
   timers: {
@@ -100,9 +98,9 @@ export default {
     saveTimezone (sid, value) {
       let timezone = 'UTC'
 
-      for (let i = 0; i < zoneinfo.length; i++) {
-        if (zoneinfo[i][0] === value) {
-          timezone = zoneinfo[i][1]
+      for (let i = 0; i < this.$zoneinfo.length; i++) {
+        if (this.$zoneinfo[i][0] === value) {
+          timezone = this.$zoneinfo[i][1]
           break
         }
       }

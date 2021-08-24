@@ -1,0 +1,7 @@
+{
+  "system/access": {
+    "title": "Access control",
+    "index": 1,
+    "view": "vuci-app-access"
+  }
+}

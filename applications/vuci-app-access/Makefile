@@ -6,7 +6,7 @@
 
 include $(TOPDIR)/rules.mk
 
-APP_TITLE:=SSH
+APP_TITLE:=Access Control
 
 include ../../vuci-app.mk
 
