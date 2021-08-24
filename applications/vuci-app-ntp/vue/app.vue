@@ -134,12 +134,9 @@ export default {
       this.$uci.set('ntpclient', this.ntpClient.offsetFreq.name, 'freq', this.ntpClient.offsetFreq.value)
       this.$uci.set('ntpclient', this.ntpClient.name, 'force', this.ntpClient.forceServers === true ? 1 : 0)
       await this.$uci.load('ntpserver')
-      console.log(this.$uci.get('ntpserver', 'general', 'enabled'))
       this.$uci.set('ntpserver', 'general', 'enabled', this.ntpServerValue)
-      console.log(this.$uci.get('ntpserver', 'general', 'enabled'))
       await this.$uci.save()
       await this.$uci.apply().then(() => { this.$store.commit('spin', false) })
-      // this.$store.commit('spin', false)
     }
   },
   created () {
