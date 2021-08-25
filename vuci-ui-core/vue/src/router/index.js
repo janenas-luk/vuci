@@ -7,50 +7,50 @@ import axios from 'axios'
 Vue.use(Router)
 
 const router = new Router({
-routes: [{
+  routes: [{
     path: '/wizard',
     component: resolve => {
-        axios.get(`/views/vuci-app-wizard.js?_t=${new Date().getTime()}`).then(r => {
-            // eslint-disable-next-line no-eval
-            return resolve(eval(r.data))
-        }).catch(() => {
-            return resolve(require('@/views/Wizard.vue'))
-        })
+      axios.get(`/views/vuci-app-wizard.js?_t=${new Date().getTime()}`).then(r => {
+        // eslint-disable-next-line no-eval
+        return resolve(eval(r.data))
+      }).catch(() => {
+        return resolve(require('@/views/Wizard.vue'))
+      })
     }
-},
-{
+  },
+  {
     path: '/login',
     component: resolve => {
-        axios.get(`/views/vuci-app-login.js?_t=${new Date().getTime()}`).then(r => {
-            // eslint-disable-next-line no-eval
-            return resolve(eval(r.data))
-        }).catch(() => {
-            return resolve(require('@/views/Login.vue'))
-        })
+      axios.get(`/views/vuci-app-login.js?_t=${new Date().getTime()}`).then(r => {
+        // eslint-disable-next-line no-eval
+        return resolve(eval(r.data))
+      }).catch(() => {
+        return resolve(require('@/views/Login.vue'))
+      })
     }
-},
-{
+  },
+  {
     path: '/',
     redirect: '/home',
     component: () =>
-        import ('@/components/VuciLayout'),
+      import('@/components/VuciLayout'),
     children: [{
-        path: 'home',
-        component: resolve => {
-            axios.get(`/views/vuci-app-home.js?_t=${new Date().getTime()}`).then(r => {
-                // eslint-disable-next-line no-eval
-                return resolve(eval(r.data))
-            }).catch(() => {
-                return resolve(require('@/views/Home.vue'))
-            })
-        },
-        meta: {
-            title: 'Home'
-        }
+      path: 'home',
+      component: resolve => {
+        axios.get(`/views/vuci-app-home.js?_t=${new Date().getTime()}`).then(r => {
+          // eslint-disable-next-line no-eval
+          return resolve(eval(r.data))
+        }).catch(() => {
+          return resolve(require('@/views/Home.vue'))
+        })
+      },
+      meta: {
+        title: 'Home'
+      }
     }]
-},
-{
-  path: '*',
+  },
+  {
+    path: '*',
     component: () =>
       import('@/components/404.vue')
   }
@@ -71,15 +71,9 @@ function beforeEach (to, next, alive) {
 
 function firstLogin () {
   return new Promise(resolve => {
-    const value = sessionStorage.getItem('__vuci_first_login')
-    if (value === null) {
-      rpc.call('ui', 'first_login').then(r => {
-        sessionStorage.setItem('__vuci_first_login', r.first)
-        resolve(r.first)
-      })
-    } else {
-      resolve(value === 'true')
-    }
+    rpc.call('ui', 'first_login').then(r => {
+      resolve(r.first)
+    })
   })
 }
 

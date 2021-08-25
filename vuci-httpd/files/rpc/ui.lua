@@ -119,7 +119,7 @@ function M.first_login()
     local c = uci.cursor()
 
     return {
-        first = c:get("vuci", "main", "first") == "1"
+        first = c:get("vuci", "main", "first_login") == "1"
     }
 end
 
@@ -131,7 +131,7 @@ function M.first_set(params)
     local c = uci.cursor()
 
     c:set("vuci", "main", "lang", params.lang)
-    c:set("vuci", "main", "first", "0")
+    c:set("vuci", "main", "first_login", "0")
     c:commit("vuci")
 
     return set_password(params)

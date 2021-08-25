@@ -106,7 +106,6 @@ export default {
           username: 'admin',
           password: this.form.password
         }).then(() => {
-          sessionStorage.setItem('__vuci_first_login', 'false')
           this.$router.push('/login')
         })
       })
