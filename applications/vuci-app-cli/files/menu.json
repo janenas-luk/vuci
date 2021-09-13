@@ -1,0 +1,7 @@
+{
+  "services/cli": {
+    "title": "CLI",
+    "index": 10,
+    "view": "vuci-app-cli"
+  }
+}

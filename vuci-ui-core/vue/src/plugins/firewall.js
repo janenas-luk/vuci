@@ -2,7 +2,32 @@ import { uci } from './uci'
 
 const firewall = {
   zones: [],
-  forwards: []
+  forwards: [],
+  rules: []
+}
+
+class Rule {
+  constructor (sid) {
+    this.sid = sid
+  }
+
+  get (key) {
+    return uci.get('firewall', this.sid, key)
+  }
+
+  set (key, val) {
+    return uci.set('firewall', this.sid, key, val)
+  }
+
+  name (key) {
+    return this.get(key)
+  }
+
+  addRule (ruleObject) {
+    Object.keys(ruleObject).forEach(key => {
+      this.set(key, ruleObject[key])
+    })
+  }
 }
 
 class Zone {
@@ -103,6 +128,7 @@ class Forward {
 firewall.loadFromLocal = function () {
   this.zones = uci.sections('firewall', 'zone').map(s => new Zone(s['.name']))
   this.forwards = uci.sections('firewall', 'forwarding').map(s => new Forward(s['.name']))
+  this.rules = uci.sections('firewall', 'rule').map(s => new Rule(s['.name']))
 }
 
 firewall.load = function (local) {
@@ -145,6 +171,9 @@ firewall.findZoneBySid = function (sid) {
 }
 
 firewall.createZone = function (name) {
+  if (this.zones.map(zone => zone.name).includes(name)) {
+    return this.getBy('name', 'zones', name)
+  }
   const sid = uci.add('firewall', 'zone')
   const z = new Zone(sid)
   this.zones.push(z)
@@ -155,6 +184,76 @@ firewall.createZone = function (name) {
   z.set('output', 'ACCEPT')
 
   return z
+}
+
+firewall.createRule = function (ruleObject) {
+  if (this.rules.map(rule => rule.name).includes(ruleObject.name)) {
+    return this.getBy('name', 'rules', ruleObject.name)
+  }
+  const sid = uci.add('firewall', 'rule')
+  const rule = new Rule(sid)
+  rule.addRule(ruleObject)
+  this.rules.push(rule)
+  return rule
+}
+
+firewall.vpnForwards = function (vpnType) {
+  if (this.forwards.map(val => val.src).includes(vpnType)) {
+    return this.getBy('src', 'forwards', vpnType)
+  }
+  const sid = uci.add('firewall', 'forwarding')
+  const forward1 = new Forward(sid)
+  forward1.set('src', vpnType)
+  forward1.set('dest', 'lan')
+  const sid2 = uci.add('firewall', 'forwarding')
+  const forward2 = new Forward(sid2)
+  forward2.set('dest', vpnType)
+  forward2.set('src', 'lan')
+  this.forwards.push(forward1)
+  this.forwards.push(forward2)
+  return [forward1, forward2]
+}
+
+firewall.addVpnConfig = async function (port, vpnType = 'openvpn', masq = '1', device = 'tun_+') {
+  await uci.load('firewall')
+  uci.sections('firewall').map(section => {
+    switch (section['.type']) {
+      case 'rule':
+        this.rules.push(section)
+        break
+      case 'forwarding':
+        this.forwards.push(section)
+        break
+      case 'zone':
+        this.zones.push(section)
+        break
+      default:
+        break
+    }
+  })
+  const zone = this.createZone(vpnType)
+  const forwards = this.vpnForwards(vpnType)
+  const rule = this.createRule({
+    name: `Allow-${vpnType}-traffic`,
+    target: 'ACCEPT',
+    src: 'wan',
+    family: 'ipv4',
+    dest_port: port,
+    proto: 'tcp udp',
+    vpn_type: vpnType
+  })
+  zone.set('network', vpnType)
+  zone.set('masq', masq)
+  zone.set('device', device)
+  return { zone, rule, forwards }
+}
+
+firewall.getBy = function (what, array, value) {
+  return this[array].filter(val => {
+    if (val[what] === value) {
+      return val
+    }
+  })[0]
 }
 
 export default {

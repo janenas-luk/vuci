@@ -11,7 +11,7 @@ function parseMenus (raw) {
       menus[paths[0]] = raw[m]
     }
   })
-  Object.keys(raw).forEach(m => {
+  Object.keys(raw).sort((a, b) => a.length - b.length).forEach(m => {
     getMenuSubmenus(menus, m, raw[m])
   })
 
@@ -23,9 +23,6 @@ function parseMenus (raw) {
     getMenuPaths(m, m.path)
     sortMenuChildren(m)
   })
-
-  //   m.children.sort((a, b) => a.index - b.index)
-  // })
 
   menus.sort((a, b) => a.index - b.index)
 

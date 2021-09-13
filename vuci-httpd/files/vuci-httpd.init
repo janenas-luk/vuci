@@ -68,6 +68,14 @@ start_instance() {
 	local cfg="$1"
 	local listen http https home index verbose
 
+	local enabled
+	config_get enabled "$cfg" enabled
+
+	if [ "$enabled" -ne 1 ]
+	then
+		exit 1
+	fi
+
 	procd_open_instance
 	procd_set_param command $VUCI_HTTPD_BIN --rpc /usr/lib/vuci-httpd/rpc --db /etc/vuci-httpd/oh.db
 
