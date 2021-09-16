@@ -1,50 +1,91 @@
 local rpc = require 'vuci.rpc'
+local ucis = require 'ucis'
 local uci = require 'uci'
 
 local M = {
-  ERROR_NAME_EXISTS = "Such firewall rule name already exists!"
+  ERROR_ENTRY_EXISTS = "Such entry in firewall already exists!"
 }
 
-function M.addToFirewall(params)
-  -- papildoma patikra
-  return uci.add{}
+M.add_to_firewall = function (values, type, name)
+  local params = {}
+  params.values = values
+  params.type = type
+  params.name = name
+  params.config = 'firewall'
+  return ucis.add(params)
 end
 
-function M.addRule(params)
+M.add_rule = function (params)
   local c = uci.cursor()
   local name = params.name
+  local matched = false
   c:foreach("firewall", "rule", function (s)
-    if s.name == name then 
-      return M.ERROR_NAME_EXISTS
+    if s.name == name then
+      matched = true
     end
   end)
-  params.type = "rule"
-  return M.addToFirewall{params}
+  if not matched then
+    return M.add_to_firewall(params, "rule")
+  else
+    return { M.ERROR_ENTRY_EXISTS }
+  end
 end
 
-function M.addForward(params)
+M.add_forward = function (params)
   local c = uci.cursor()
-  local src = params.src
-  local dest = params.dest
-  c:foreach("firewall", "forwarding", function (s)
+  local src, dest = params.src, params.dest
+  local matched = false  c:foreach("firewall", "forwarding", function (s)
     if s.src == src and s.dest == dest then
-      return M.ERROR_NAME_EXISTS
+      matched = true
     end
   end)
-  params.type = "forwarding"
-  return M.addToFirewall(params)
+  if not matched then
+    return M.add_to_firewall(params, "forwarding")
+  else
+    return M.ERROR_ENTRY_EXISTS
+  end
 end
 
-function M.addZone(params)
+M.add_zone = function (params)
   local c = uci.cursor()
   local name = params.name
+  local matched = false
   c:foreach("firewall", "zone", function(s)
-    if s.name == name then 
-      return M.ERROR_NAME_EXISTS
+    if s.name == name then
+      matched = true
     end
   end)
-  params.type = "zone"
-  return M.addToFirewall(params)
+  if not matched then
+    return M.add_to_firewall(params, "zone")
+  else
+    return M.ERROR_ENTRY_EXISTS
+  end
 end
 
-return M
+M.get = function(section, param, value, return_param)
+  local c = uci.cursor()
+  local result = nil
+  c:foreach("firewall", section, function (s)
+    if s[param] == value then
+      if return_param ~= nil then
+        result = s[return_param]
+      else
+        result = s
+      end
+    end
+  end)
+  return result
+end
+
+M.get_zone_by = function (params)
+  M.get('zone',params.param, params.value, params.only)
+end
+
+M.delete = function(params)
+  params.section = params.sid
+  params.sid = nil
+  params.config = 'firewall'
+  ucis.delete(params)
+end
+
+return
