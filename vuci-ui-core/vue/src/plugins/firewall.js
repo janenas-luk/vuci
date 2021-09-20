@@ -213,8 +213,7 @@ firewall.vpnForwards = function (vpnType) {
   this.forwards.push(forward2)
   return [forward1, forward2]
 }
-
-firewall.addVpnConfig = async function (port, vpnType = 'openvpn', masq = '1', device = 'tun_+') {
+firewall.loadAll = async function () {
   await uci.load('firewall')
   uci.sections('firewall').map(section => {
     switch (section['.type']) {
@@ -231,6 +230,10 @@ firewall.addVpnConfig = async function (port, vpnType = 'openvpn', masq = '1', d
         break
     }
   })
+}
+
+firewall.addVpnConfig = async function (port, vpnType = 'openvpn', masq = '1', device = 'tun_+') {
+  await this.loadAll()
   const zone = this.createZone(vpnType)
   const forwards = this.vpnForwards(vpnType)
   const rule = this.createRule({
@@ -242,9 +245,11 @@ firewall.addVpnConfig = async function (port, vpnType = 'openvpn', masq = '1', d
     proto: 'tcp udp',
     vpn_type: vpnType
   })
-  zone.set('network', vpnType)
-  zone.set('masq', masq)
-  zone.set('device', device)
+  if (zone instanceof Zone) {
+    zone.set('network', vpnType)
+    zone.set('masq', masq)
+    zone.set('device', device)
+  }
   return { zone, rule, forwards }
 }
 
