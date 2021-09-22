@@ -78,7 +78,12 @@ system.initRestart = function (name) {
   return this.initRun(name, 'restart')
 }
 
-system.initWaitEnabled = function (name, expect, resolve) {
+system.initReload = function (name) {
+  return this.initRun(name, 'reload')
+}
+
+system.initWaitEnabled = function (
+  expect, resolve) {
   function check () {
     this.initEnabled(name).then(enabled => {
       if (!!enabled === expect) {

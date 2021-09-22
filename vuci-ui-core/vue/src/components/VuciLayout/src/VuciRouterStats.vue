@@ -43,22 +43,19 @@ export default {
     return {
       showStatsBox: false,
       ram: {
-        total: '',
-        used: ''
+        total: '0',
+        used: '0'
       },
       cpu: '',
       flash: {
-        total: '',
-        used: ''
+        total: '0',
+        used: '0'
       }
     }
   },
   methods: {
     call () {
       this.showStatsBox = !this.showStatsBox
-      console.log(this.$uci.load)
-      console.log(this.$system.getInfo())
-      console.log('PASPAUDE!')
     }
   },
   created () {
@@ -66,7 +63,7 @@ export default {
       if (this.showStatsBox) {
         this.$system.getSystemInfo().then(response => {
           this.ram.total = '%mB'.format(response.memory.total)
-          this.cpu = (response.load.reduce((sum, curr) => sum + curr) / 65536.0 / 4 * 100).toPrecision(2)
+          this.cpu = (response.load.reduce((sum, curr) => sum + curr) / 3 / 65536.0 / 4 * 100).toPrecision(2)
           this.ram.used = '%mB'.format(response.memory.total - response.memory.available)
         })
         this.$system.getDiskInfo().then(response => {

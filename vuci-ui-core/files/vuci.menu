@@ -14,5 +14,9 @@
     "services": {
         "title": "Services",
         "index": 30
+    },
+    "system/general": {
+        "title": "General",
+        "index": 10
     }
 }
