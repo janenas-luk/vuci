@@ -98,6 +98,7 @@ define Package/vuci-httpd/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/lua/utils.lua $(1)/usr/lib/lua/vuci
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/lua/rpc.lua $(1)/usr/lib/lua/vuci
 	$(INSTALL_DATA) ./files/iwinfo.lua $(1)/usr/lib/lua/vuci
+	$(INSTALL_DATA) ./files/oh.db $(1)/etc/vuci-httpd
 	for f in `ls ./files/rpc`; do \
 		$(INSTALL_DATA) ./files/rpc/$$$$f $(1)/usr/lib/vuci-httpd/rpc/$$$${f%.*}; \
 	done
@@ -106,6 +107,7 @@ ifeq ($(CONFIG_VUCI_HTTPD_API_UBUS),)
 endif
 	$(SED) "3,4 s/80/$(CONFIG_VUCI_HTTPD_HTTP_PORT)/" $(1)/etc/config/vuci-httpd
 	$(SED) "7,8 s/443/$(CONFIG_VUCI_HTTPD_HTTPS_PORT)/" $(1)/etc/config/vuci-httpd
+
 endef
 
 $(eval $(call BuildPackage,vuci-httpd))
