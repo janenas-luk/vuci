@@ -124,7 +124,6 @@ network.load = function () {
 
   promises.push(rpc.ubus('network.device', 'status'))
   promises.push(rpc.ubus('network.interface', 'dump'))
-
   return new Promise(resolve => {
     Promise.all(promises).then(r => {
       const devices = r[0]

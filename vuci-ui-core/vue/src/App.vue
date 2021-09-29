@@ -2,6 +2,20 @@
   <a-config-provider id="app" :locale="locale">
     <fullscreen ref="fullscreen">
       <a-spin v-if="loaded" :spinning="spinning > 0" :tip="spintip || $t('Loading...')" size="large">
+        <my-modal :key="counter" v-if="visible">
+          <a-form>
+          <a-form-item label="New password">
+            <a-input-password v-model="pass"></a-input-password>
+          </a-form-item>
+          <a-form-item label="Confirm new password">
+            <a-input-password v-model="passConfirm"></a-input-password>
+          </a-form-item>
+        </a-form>
+        <template v-slot:footer>
+            <a-button :disabled="passConfirm !== pass" type="primary" @click="handleSubmit">Confirm change</a-button>
+        </template>
+        <template v-slot:header>Set your new password</template>
+        </my-modal>
         <router-view></router-view>
       </a-spin>
     </fullscreen>
@@ -18,6 +32,10 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
+      counter: 1,
+      pass: '',
+      passConfirm: '',
+      visible: false,
       loaded: false,
       locales: {
         'zh-cn': zhCN,
@@ -35,6 +53,33 @@ export default {
   watch: {
     fullscreen () {
       this.$refs.fullscreen.toggle()
+    },
+    $route (to, from) {
+      this.showModal()
+    }
+  },
+  methods: {
+    showModal () {
+      if (this.$store.getters.passwordConfirmed === false) {
+        console.log('turetu rodyti')
+        this.counter++
+        this.visible = true
+      }
+    },
+    handleSubmit () {
+      if (this.pass === this.passConfirm) {
+        this.$rpc.call('ui', 'first_set', {
+          lang: 'en',
+          username: 'admin',
+          password: this.pass
+        }).then(() => {
+          this.$router.push('/')
+          this.$uci.save()
+          this.visible = false
+          this.$store.commit('setPasswordConfirmed', true)
+          sessionStorage.setItem('__vuci_first_login', 'false')
+        })
+      }
     }
   },
   created () {

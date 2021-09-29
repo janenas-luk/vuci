@@ -10,9 +10,16 @@ export default new Vuex.Store({
     lang: '',
     fullscreen: false,
     spinning: 0,
-    spintip: null
+    spintip: null,
+    passwordConfirmed: undefined
+  },
+  getters: {
+    passwordConfirmed: state => state.passwordConfirmed
   },
   mutations: {
+    setPasswordConfirmed (state, status) {
+      state.passwordConfirmed = status
+    },
     setMenus (state, menus) {
       state.menus = menus
     },

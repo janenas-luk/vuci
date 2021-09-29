@@ -22,7 +22,9 @@ import network from './plugins/network'
 import firewall from './plugins/firewall'
 import wireless from './plugins/wireless'
 import zoneinfo from './plugins/zoneinfo'
+import mnfinfo from './plugins/mnfinfo'
 
+import MyModal from '@/components/MyModal.vue'
 import VuciLine from '@/components/VuciLine.vue'
 import VuciDashboard from '@/components/VuciDashboard.vue'
 
@@ -36,6 +38,7 @@ Vue.use(fullscreen)
 
 Vue.use(Antd)
 
+Vue.use(mnfinfo)
 Vue.use(prompt)
 Vue.use(rpc)
 Vue.use(session)
@@ -51,6 +54,7 @@ Vue.use(zoneinfo)
 
 Vue.component('VuciLine', VuciLine)
 Vue.component('VuciDashboard', VuciDashboard)
+Vue.component('MyModal', MyModal)
 
 new Vue({
   router,

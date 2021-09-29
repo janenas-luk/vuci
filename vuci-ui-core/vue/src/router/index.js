@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { session } from '@/plugins/session'
 import { rpc } from '@/plugins/rpc'
+import store from '@/store/index.js'
 import axios from 'axios'
 
 Vue.use(Router)
@@ -71,35 +72,29 @@ function beforeEach (to, next, alive) {
 
 function firstLogin () {
   return new Promise(resolve => {
-    const value = sessionStorage.getItem('__vuci_first_login')
-    if (value === null) {
+    const value = store.getters.passwordConfirmed
+    if (value === undefined) {
       rpc.call('ui', 'first_login').then(r => {
-        sessionStorage.setItem('__vuci_first_login', r.first)
+        store.commit('setPasswordConfirmed', !r.first)
         resolve(r.first)
       })
     } else {
-      resolve(value === 'true')
+      resolve(value === false)
     }
   })
 }
 
 router.beforeEach((to, from, next) => {
-  firstLogin().then(first => {
-    if (first) {
-      if (to.path !== '/wizard') { next('/wizard') } else { next() }
-    } else {
-      if (to.path === '/wizard') {
-        next('/')
-        return
-      }
-
-      session.isAlive().then((alive) => {
-        if (alive) session.startHeartbeat()
-        else session.logout()
-
-        beforeEach(to, next, alive)
+  session.isAlive().then(isAlive => {
+    if (isAlive) {
+      session.startHeartbeat()
+      firstLogin().then(first => {
+        if (first && to.path !== '/login') {
+          store.commit('setPasswordConfirmed', false)
+        }
       })
-    }
+    } else session.logout()
+    beforeEach(to, next, isAlive)
   })
 })
 

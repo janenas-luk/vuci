@@ -136,7 +136,8 @@ export default {
         this.$uci.set('openvpn', this.configName, 'tls_client', 1)
         this.$uci.set('openvpn', this.configName, 'client', 1)
       }
-      await this.$firewall.addVpnConfig(this.form.port)
+      // await this.$firewall.addVpnConfig(this.form.port)
+      this.$rpc.call('openvpn', 'add_vpn_config', { port: 1195 })
       await this.$uci.save()
       await this.$uci.apply()
       await this.$system.initReload('firewall')
