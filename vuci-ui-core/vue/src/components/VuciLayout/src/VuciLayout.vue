@@ -6,7 +6,6 @@
     <a-layout>
       <a-layout-content style="padding: 0 16px 16px; height: 100vh">
         <vuci-header/>
-        <vuci-router-stats></vuci-router-stats>
         <div ref="vuci-main-content" class="vuci-main-content">
           <transition name="main" mode="out-in">
             <router-view></router-view>
@@ -23,13 +22,11 @@
 <script>
 import VuciSide from './VuciSide.vue'
 import VuciHeader from './VuciHeader'
-import VuciRouterStats from './VuciRouterStats'
 
 export default {
   components: {
     VuciSide,
-    VuciHeader,
-    VuciRouterStats
+    VuciHeader
   },
   computed: {
     hostname () {

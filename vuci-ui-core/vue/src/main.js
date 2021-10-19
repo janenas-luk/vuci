@@ -22,6 +22,7 @@ import network from './plugins/network'
 import firewall from './plugins/firewall'
 import wireless from './plugins/wireless'
 import zoneinfo from './plugins/zoneinfo'
+import mnfinfo from './plugins/mnfinfo'
 
 import VuciLine from '@/components/VuciLine.vue'
 import VuciDashboard from '@/components/VuciDashboard.vue'
@@ -48,6 +49,7 @@ Vue.use(network)
 Vue.use(firewall)
 Vue.use(wireless)
 Vue.use(zoneinfo)
+Vue.use(mnfinfo)
 
 Vue.component('VuciLine', VuciLine)
 Vue.component('VuciDashboard', VuciDashboard)

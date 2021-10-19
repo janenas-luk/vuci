@@ -9,6 +9,7 @@ import VuciFormItemInput from './src/VuciFormItemInput.vue'
 import VuciFormItemSelect from './src/VuciFormItemSelect.vue'
 import VuciFormItemSwitch from './src/VuciFormItemSwitch.vue'
 import VuciFormItemList from './src/VuciFormItemList.vue'
+import VuciFormItemRadio from './src/VuciFormItemRadio.vue'
 
 Vue.component('VuciForm', VuciForm)
 
@@ -23,3 +24,4 @@ Vue.component('VuciFormItemInput', VuciFormItemInput)
 Vue.component('VuciFormItemSelect', VuciFormItemSelect)
 Vue.component('VuciFormItemSwitch', VuciFormItemSwitch)
 Vue.component('VuciFormItemList', VuciFormItemList)
+Vue.component('VuciFormItemRadio', VuciFormItemRadio)
