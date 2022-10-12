@@ -36,11 +36,11 @@ Represents all uci sections which has the same type.
 | teasers | The name of the option to display when collapsed (all options are displayed by default) | array | — | — |
 | add | Custom add function. | Function(self) | — | — |
 
-### 事件
-| 事件名称   | 说明         | 回调参数   |
+### Events
+| Name   | Description         | Parameters   |
 |---------- |------------- |---------- |
-| change    | 当选项的值改变时触发 | (sid, self) |
-| change-xx | 某个特定的选项的值改变时触发(其中xx表示具体的选项名称) | (self) |
+| change    | triggers when one option's value changed | (sid, self) |
+| change-xx | Triggered when the value of a particular option changes(Where xx represents the specific option name) | (self) |
 
 ### Filter
 
