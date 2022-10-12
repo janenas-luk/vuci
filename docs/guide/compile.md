@@ -3,12 +3,12 @@
 ## Add feed
 
 ``` bash
-echo "src-git vuci https://github.com/zhaojh329/vuci.git" >> feeds.conf.default
+echo "src-git vuci https://github.com/janenas-luk/vuci.git" >> feeds.conf.default
 ```
 
 If there is feeds.conf
 ``` bash
-echo "src-git vuci https://github.com/zhaojh329/vuci.git" >> feeds.conf
+echo "src-git vuci https://github.com/janenas-luk/vuci.git" >> feeds.conf
 ```
 
 ## Update feed

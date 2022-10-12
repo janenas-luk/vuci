@@ -15,7 +15,7 @@ with [nvm](https://github.com/creationix/nvm) or [nvm-windows](https://github.co
 
 2.Clone the vuci code to any location on your development host machine.
 ``` bash
-git clone https://github.com/zhaojh329/vuci.git
+git clone https://github.com/janenas-luk/vuci.git
 ```
 
 3.Enter：vuci/vuci-ui-core/src/
