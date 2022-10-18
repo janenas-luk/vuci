@@ -1,4 +1,4 @@
-# vuci([中文](/README_ZH.md))
+# vuci
 
 [1]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=plastic
 [2]: /LICENSE
