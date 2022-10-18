@@ -18,6 +18,9 @@ import { rpc } from './rpc'
       },
       get: (conf, sid, opt) => {
         return uci.get(conf, sid, opt)
+      },
+      set: (conf, sid, opt, val) => {
+        uci.set(conf, sid, opt, val)
       }
     }
   }
@@ -27,6 +30,16 @@ import { rpc } from './rpc'
       rpc.call(object, method, params).then(r => {
         if (typeof (console) !== 'undefined') { console.log(r) }
       })
+    }
+  }
+
+  if (typeof (vuci.ubus) === 'undefined') {
+    vuci.ubus = function (object, method, params, timeout) {
+      rpc.ubus(object, method, params, timeout).then(
+        r => {
+          if (typeof (console) !== 'undefined') { console.log(r) }
+        }
+      )
     }
   }
 })()
