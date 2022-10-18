@@ -1,0 +1,3 @@
+.vscode
+*/.vuepress/dist
+applications/vuci-app-example
