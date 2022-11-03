@@ -22,6 +22,12 @@ import { log } from './log'
       },
       set: (conf, sid, opt, val) => {
         uci.set(conf, sid, opt, val)
+      },
+      commit: () => {
+        uci.apply()
+      },
+      save: () => {
+        uci.save()
       }
     }
   }
