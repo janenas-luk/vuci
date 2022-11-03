@@ -309,10 +309,14 @@ export default {
     },
     buildFormPost (value) {
       this.$set(this.form, this.prop, this.convertUciValue(value))
-      if (Array.isArray(this.model)) {
-        Object.defineProperty(this, 'initialValue', { value: [...this.model] })
+      if (this.uciSection[this.name]) {
+        if (Array.isArray(this.model)) {
+          Object.defineProperty(this, 'initialValue', { value: [...this.model] })
+        } else {
+          Object.defineProperty(this, 'initialValue', { value: this.model })
+        }
       } else {
-        Object.defineProperty(this, 'initialValue', { value: this.model })
+        Object.defineProperty(this, 'initialValue', { value: undefined })
       }
       this.watchValue()
     },

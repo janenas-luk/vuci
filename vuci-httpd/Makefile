@@ -86,7 +86,8 @@ endef
 
 define Package/vuci-httpd/install
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/init.d $(1)/etc/config \
-		$(1)/usr/lib/vuci-httpd/rpc $(1)/etc/vuci-httpd $(1)/usr/lib/lua/vuci/utils
+		$(1)/usr/lib/vuci-httpd/rpc $(1)/etc/vuci-httpd $(1)/usr/lib/lua/vuci/utils \
+		$(1)/etc/vuci-uploads
 	$(INSTALL_CONF) ./files/vuci-httpd.config $(1)/etc/config/vuci-httpd
 	$(INSTALL_BIN) ./files/vuci-httpd.init $(1)/etc/init.d/vuci-httpd
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/vuci-httpd $(1)/usr/sbin

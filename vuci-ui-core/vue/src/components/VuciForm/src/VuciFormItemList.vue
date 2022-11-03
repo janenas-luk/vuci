@@ -38,13 +38,13 @@ export default {
     listRules () {
       return {
         type: 'array',
-        fields: this.model.map(() => this.convertedRules)
+        fields: this.model?.map(() => this.convertedRules)
       }
     }
   },
   methods: {
     changed () {
-      return this.initialValue.sort().toString() !== this.model.sort().toString()
+      return this.initialValue?.sort().toString() !== this.model?.sort().toString()
     },
     convertUciValue (value) {
       if (typeof value === 'undefined') { return [] } else { return Array.from(value) }
