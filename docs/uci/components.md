@@ -258,3 +258,14 @@ Used when an option has multiple optional values.
 ## vuci-form-item-dlist
 
 Dynamic list. Corresponds to the list in the uci configuration.
+
+## vuci-form-item-upload
+
+Used to upload files and save their locations in uci config.
+
+### Attributes
+| Name        | Description        | Type      | Accepted Values       | Default  |
+|------------ |------------ |---------- |-------------|-------- |
+| path | Location where files will be saved | string | — | /etc/vuci-uploads/ |
+| size | Max allowed file size in bytes | number/string | — | 10000 |
+| multiple | Allows to upload multiple files | boolean | — | false |
