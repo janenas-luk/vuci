@@ -1,5 +1,6 @@
 import { uci } from './uci'
 import { rpc } from './rpc'
+import { log } from './log'
 
 (function () {
   if (process.env.NODE_ENV === 'production') { return }
@@ -40,6 +41,14 @@ import { rpc } from './rpc'
           if (typeof (console) !== 'undefined') { console.log(r) }
         }
       )
+    }
+  }
+
+  if (typeof (vuci.log) === 'undefined') {
+    vuci.log = {
+      get: (params) => {
+        return log.get(params)
+      }
     }
   }
 })()
