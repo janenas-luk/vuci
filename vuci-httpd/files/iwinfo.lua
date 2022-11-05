@@ -24,7 +24,7 @@ function M.assoclist(device)
    return M.info(device)['assoclist']
 end
 
-function M.scan(device)
+function M.scanlist(device)
     return M.info(device)['scanlist']
 end
 

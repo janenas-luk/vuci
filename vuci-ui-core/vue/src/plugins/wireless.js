@@ -16,6 +16,30 @@ wireless.getDevices = function () {
   })
 }
 
+wireless.info = function (device) {
+  return new Promise((resolve, reject) => {
+    this.getDevices().then(devices => {
+      if (!devices.includes(device)) {
+        reject(new Error(`Device "${device}" does not exist.`))
+        return
+      }
+      rpc.ubus('iwinfo', 'info', { device }).then(r => resolve(r))
+    })
+  })
+}
+
+wireless.scan = function (device) {
+  return new Promise((resolve, reject) => {
+    this.getDevices().then(devices => {
+      if (!devices.includes(device)) {
+        reject(new Error(`Device "${device}" does not exist.`))
+        return
+      }
+      rpc.ubus('iwinfo', 'scan', { device }).then(r => resolve(r))
+    })
+  })
+}
+
 wireless.getAssoclist = function () {
   return new Promise(resolve => {
     this.getDevices().then(devices => {
