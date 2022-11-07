@@ -27,7 +27,6 @@ function allQuery()
         end
     end
 
-    query = query .. " ORDER BY time"
     return query
 end
 
@@ -49,7 +48,18 @@ function M.log(params)
         query = allQuery()
     else
         if not isInTable(tables, params.table) then return rpc.ERROR_CODE_INVALID_PARAMS end
-        query = "SELECT * FROM " .. params.table .. " ORDER BY time"
+        query = "SELECT * FROM " .. params.table
+    end
+
+    if params.order then
+        if type(params.order) ~= "string" then return rpc.ERROR_CODE_INVALID_PARAMS end
+        if (string.upper(params.order) == "ASC" or string.upper(params.order) == "DESC") then
+        query = query ..  ' ORDER BY TIME ' .. string.upper(params.order)
+        else
+            return rpc.ERROR_CODE_INVALID_PARAMS
+        end
+    else
+        query = query ..  ' ORDER BY TIME DESC '
     end
 
     if params.limit then
