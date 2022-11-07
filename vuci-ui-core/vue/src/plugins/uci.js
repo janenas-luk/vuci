@@ -87,7 +87,10 @@ uci.set = function (conf, sid, opt, val) {
 
     /* undelete option */
     if (d[conf] && d[conf][sid]) {
-      if (Array.isArray(d[conf][sid])) { d[conf][sid].splice(d[conf][sid].indexOf(opt), 1) }
+      if (Array.isArray(d[conf][sid])) {
+        const index = d[conf][sid].indexOf(opt)
+        index >= 0 && d[conf][sid].splice(index, 1)
+      }
     }
 
     c[conf][sid][opt] = val
@@ -135,19 +138,31 @@ uci.add = function (conf, type, name) {
   return sid
 }
 
-uci.del = function (conf, sid) {
+uci.del = function (conf, sid, opt) {
   const n = this.state.creates
   const c = this.state.changes
   const d = this.state.deletes
 
-  if (n[conf] && n[conf][sid]) {
+  if (n[conf] && n[conf][sid] && n[conf][sid][opt]) {
+    delete n[conf][sid][opt]
+  } else if (n[conf] && n[conf][sid]) {
     delete n[conf][sid]
   } else {
-    if (c[conf]) { delete c[conf][sid] }
+    if (c[conf] && c[conf][sid]) {
+      delete c[conf][sid][opt]
+    } else if (c[conf]) {
+      delete c[conf][sid]
+    }
 
     if (!d[conf]) { d[conf] = {} }
 
-    d[conf][sid] = true
+    if (opt) {
+      if (!d[conf][sid]) { d[conf][sid] = [] }
+
+      if (d[conf][sid] !== true) { d[conf][sid].push(opt) }
+    } else {
+      d[conf][sid] = true
+    }
   }
 }
 
