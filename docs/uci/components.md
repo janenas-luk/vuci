@@ -269,3 +269,18 @@ Used to upload files and save their locations in uci config.
 | path | Location where files will be saved | string | — | /etc/vuci-uploads/ |
 | size | Max allowed file size in bytes | number/string | — | 10000 |
 | multiple | Allows to upload multiple files | boolean | — | false |
+
+## vuci-progress-bar
+
+Used to create dynamic linear progress bar.
+
+### Attributes
+| Name        | Description        | Type      | Accepted Values       | Default  |
+|------------ |------------ |---------- |-------------|-------- |
+| title | title of a progress bar which displayed above the bar | string | — | — | 
+| value | value according which progress bar will be created and filled | number | — | — |
+| max-value | value which indicates maximum value of progress bar | number | — | 100 |
+| unit | displays progress bar units  | string | — | % |
+| show-info | displays value and info at the end of progress bar | boolean | — | true |
+| bar-weight | allows to change weight of progress bar ( in px ) | number | — | 10 |
+| bar-width | allows to change width of progress bar ( in % ) | number | — | 50 |

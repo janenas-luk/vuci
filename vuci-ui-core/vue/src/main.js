@@ -26,6 +26,7 @@ import log from './plugins/log'
 
 import VuciLine from '@/components/VuciLine.vue'
 import VuciDashboard from '@/components/VuciDashboard.vue'
+import VuciProgressBar from '@/components/VuciProgressBar.vue'
 
 import '@/components/VuciForm'
 
@@ -52,6 +53,7 @@ Vue.use(zoneinfo)
 Vue.use(log)
 Vue.component('VuciLine', VuciLine)
 Vue.component('VuciDashboard', VuciDashboard)
+Vue.component('VuciProgressBar', VuciProgressBar)
 
 new Vue({
   router,
