@@ -33,7 +33,8 @@ export default {
     return {
       fileName: '',
       fileNameDisplay: '',
-      fileList: []
+      fileList: [],
+      deleteList: []
     }
   },
   methods: {
@@ -69,6 +70,7 @@ export default {
       else this.model = this.path + file.uid + '.' + file.name
     },
     remove (file) {
+      this.deleteList.push(file)
       this.fileList = this.fileList.filter(f => f.uid !== file.uid)
       if (this.multiple) this.model = this.fileList.map(f => this.path + f.uid + '.' + f.name)
       else this.model = undefined
@@ -106,6 +108,9 @@ export default {
         if (this.save) { return this.save(this) }
 
         this.$uci.set(this.config, this.sid, this.name, this.model)
+
+        this.deleteList.forEach(f => this.$rpc.ubus('file', 'remove', { path: this.path + f.uid + '.' + f.name }))
+        this.deleteList = []
       }
     }
   },
